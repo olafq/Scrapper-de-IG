@@ -1,0 +1,9 @@
+selenium
+undetected-chromedriver
+pandas
+datetime
+openpyxl
+langdetect
+os
+time 
+ChromeDriverManager
