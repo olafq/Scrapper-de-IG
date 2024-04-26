@@ -1,4 +1,39 @@
 from funcionesGenerales import * 
+import requests
+
+# Token de acceso
+access_token = 'EAAJIp9alpSQBO849MhMdseOcb00bnO0H60Gpzd26VPuTWkIQx79qTjwbg2K1c5e39kHmHx2OZBkJgLGw7gcrsd3V6xTAgnFyRIjMqrVPIn7FaA8t2YvBYSJ6XHQ6GJ6rjfQ7h6vuKZCJ0d6unA2ZB7bqdirXvBIjAd1gMKObjqJO0NTmvpsPoqsDqdLItIBGZBIwLjZAxcZCMQwP1Wd1NYiTEKcZAk3DOiL'
+
+# IDs de las publicaciones
+post_ids = ["18291229885134271", "17940950399706691"]
+
+# Lista para almacenar las URL de las imágenes
+image_urls = []
+
+# Iterar sobre los IDs de las publicaciones
+for post_id in post_ids:
+    # URL de la solicitud
+    url = f"https://graph.facebook.com/v19.0/{post_id}?fields=media_type,media_url&access_token={access_token}"
+    
+    # Realizar la solicitud GET
+    response = requests.get(url)
+    
+    # Parsear la respuesta JSON
+    data = response.json()
+    
+    # Verificar si la publicación es una imagen y obtener la URL de la imagen
+    if 'media_type' in data and data['media_type'] == 'IMAGE':
+        image_url = data['media_url']
+        image_urls.append(image_url)
+
+# Descargar las imágenes
+for i, image_url in enumerate(image_urls):
+    response = requests.get(image_url)
+    with open(f"image_{i}.jpg", "wb") as f:
+        f.write(response.content)
+
+
+
 
 #funcion que ingresa usuario y contraseña del txt pasado para instagram
 def Ingresar_a_instagram(us,pas): 
