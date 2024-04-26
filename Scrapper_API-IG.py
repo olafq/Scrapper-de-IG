@@ -1,96 +1,42 @@
-import requests
+from funcionesAPI import *
+
+# Define la lista de usuarios
+publicaciones = []
+perfiles = []
+ruta_completa = os.path.join(os.getcwd(), "C:\\Users\\Olaf\\Desktop\\Trabajo\\Scrapper-de-IG\\UsuariosABuscar.txt")
+    # Abre el archivo de texto en modo lectura
+with open(ruta_completa, "r") as archivo: 
+        usuariosABuscar = []
+        # Itera sobre cada línea del archivo
+        for linea in archivo:
+            # Elimina espacios en blanco al principio y al final de la línea
+            usuario = linea.strip()
+            # Agrega el usuario a la lista
+            usuariosABuscar.append(usuario)
 
 # Token de acceso
-access_token = 'EAAJIp9alpSQBO849MhMdseOcb00bnO0H60Gpzd26VPuTWkIQx79qTjwbg2K1c5e39kHmHx2OZBkJgLGw7gcrsd3V6xTAgnFyRIjMqrVPIn7FaA8t2YvBYSJ6XHQ6GJ6rjfQ7h6vuKZCJ0d6unA2ZB7bqdirXvBIjAd1gMKObjqJO0NTmvpsPoqsDqdLItIBGZBIwLjZAxcZCMQwP1Wd1NYiTEKcZAk3DOiL'
+access_token = "EAAJIp9alpSQBO9oVLKtuqn8wgWakcqBU8OZBkVZARLq2hz0ugt5gJZAS90ZBWXrmEz3oecaEBNFfbCaSNZAinZA3eFgvWVZCqKlpBaeKROYXUyi4dZAYebyCqitZCCFILUstvZCqrkZBvtcs6K4sOlCmZCmynCbJKghkxGz5MsVkYDszuDOqdNZCdaAz7Ah4PsoAB1ja4LjmbDqmFRBJoIVqAZBBKuaFQDHii6owZDZD"
 
-# IDs de las publicaciones
-post_ids = ["18291229885134271", "17940950399706691"]
+# Itera sobre cada usuario
+for usuario in usuariosABuscar:
+    url_info = f"https://graph.facebook.com/v19.0/17841462284503224?fields=business_discovery.username(danonetest){{media{{comments_count,like_count,media_url,id}}}}&access_token={access_token}"
+    response_info = requests.get(url_info).json()
 
-# Lista para almacenar las URL de las imágenes
-image_urls = []
+    # Extrae la información deseada
+    #followers_count = response_info["business_discovery"]["followers_count"]
+    #media_count = response_info["business_discovery"]["media_count"]
+    data = response_info["business_discovery"]["media"]["data"]
+    for i in data:
+        comentarios = i["comments_count"]
+        url = i["media_url"]
+        like = i["like_count"]
+        ids= i["id"]
+        print(comentarios)
+        print(url)
+        print(like)
+        print(ids)
 
-# Iterar sobre los IDs de las publicaciones
-for post_id in post_ids:
-    # URL de la solicitud
-    url = f"https://graph.facebook.com/v19.0/{post_id}?fields=media_type,media_url&access_token={access_token}"
+ 
     
-    # Realizar la solicitud GET
-    response = requests.get(url)
-    
-    # Parsear la respuesta JSON
-    data = response.json()
-    
-    # Verificar si la publicación es una imagen y obtener la URL de la imagen
-    if 'media_type' in data and data['media_type'] == 'IMAGE':
-        image_url = data['media_url']
-        image_urls.append(image_url)
-
-# Descargar las imágenes
-for i, image_url in enumerate(image_urls):
-    response = requests.get(image_url)
-    with open(f"image_{i}.jpg", "wb") as f:
-        f.write(response.content)
-
-
-'''
-import requests
-
-def search_account(access_token, account_name):
-    # URL de la solicitud para buscar la cuenta por su nombre
-    url = f"https://graph.facebook.com/v19.0/{account_name}?fields=id&access_token={access_token}"
-    
-    # Realizar la solicitud GET
-    response = requests.get(url)
-    
-    # Parsear la respuesta JSON
-    data = response.json()
-    
-    # Verificar si se encontró la cuenta
-    if 'id' in data:
-        account_id = data['id']
-        return account_id
-    else:
-        return None
-
-def get_account_images(access_token, account_id):
-    # URL de la solicitud para obtener las imágenes de la cuenta
-    url = f"https://graph.facebook.com/v19.0/{account_id}/media?fields=id,media_url&access_token={access_token}"
-    
-    # Realizar la solicitud GET
-    response = requests.get(url)
-    
-    # Parsear la respuesta JSON
-    data = response.json()
-    
-    # Verificar si se encontraron imágenes
-    if 'data' in data:
-        images = []
-        for item in data['data']:
-            if 'media_url' in item:
-                images.append(item['media_url'])
-        return images
-    else:
-        return None
-
-# Token de acceso
-access_token = 'EAAJIp9alpSQBO849MhMdseOcb00bnO0H60Gpzd26VPuTWkIQx79qTjwbg2K1c5e39kHmHx2OZBkJgLGw7gcrsd3V6xTAgnFyRIjMqrVPIn7FaA8t2YvBYSJ6XHQ6GJ6rjfQ7h6vuKZCJ0d6unA2ZB7bqdirXvBIjAd1gMKObjqJO0NTmvpsPoqsDqdLItIBGZBIwLjZAxcZCMQwP1Wd1NYiTEKcZAk3DOiL'
-
-# Nombre de la cuenta que deseas buscar
-account_name = 'yogurisimoargentina'
-
-# Buscar la cuenta por su nombre
-account_id = search_account(access_token, account_name)
-
-if account_id:
-    # Obtener las imágenes de la cuenta
-    images = get_account_images(access_token, account_id)
-    if images:
-        print("Imágenes encontradas:")
-        for image_url in images:
-            print(image_url)
-    else:
-        print("No se encontraron imágenes para esta cuenta.")
-else:
-    print("No se encontró ninguna cuenta con ese nombre.")
-
-'''
+# comentarios de cada publicacion https://graph.facebook.com/v19.0/18291229885134271/comments?access_token=EAAJIp9alpSQBO5qRMeWwq5eWxkdEoUU153FCXRhUxADZAlXsEBFNTKFVSrwZBk4Ya9p3B7BXHa2fWdU8OgCbNXrirQG5FYNjPw4dIinzAmSeMRKZAJxGhbzqy09K70y4kEZCr2EPHL8RgtxmuuOJfZAzEDvRwX6lJnqlWQo7MeZAATkfljYKqYtKEKvCwEmLZBOZAubbHg4QVHSivXTILJerDMbFMgQkugZDZD
+#el id es el id del post que devuelve pero no me deja en otras cuentas agenas.....
