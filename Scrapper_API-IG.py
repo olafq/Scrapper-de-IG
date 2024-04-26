@@ -15,11 +15,12 @@ with open(ruta_completa, "r") as archivo:
             usuariosABuscar.append(usuario)
 
 # Token de acceso
-access_token = "EAAJIp9alpSQBO9oVLKtuqn8wgWakcqBU8OZBkVZARLq2hz0ugt5gJZAS90ZBWXrmEz3oecaEBNFfbCaSNZAinZA3eFgvWVZCqKlpBaeKROYXUyi4dZAYebyCqitZCCFILUstvZCqrkZBvtcs6K4sOlCmZCmynCbJKghkxGz5MsVkYDszuDOqdNZCdaAz7Ah4PsoAB1ja4LjmbDqmFRBJoIVqAZBBKuaFQDHii6owZDZD"
+access_token = "EAAJIp9alpSQBO4HbayHz8syhuTXblF8qo6Pau4CzdHYo1KrYuuR0n5KgM97dUEsb6gh2ZCZCecUKZBwh9ouofnYnPzc7Hl1iH2JJ2Tn3JgmHol7yBg6fBC4W0kCeZAaRmrOShQaDpQyEUXZCimOgWBBM8KJpeOZCEpsg3fpjbNsKnWyjoBnpur3KMNBKZCRZBpa3nBUab2iraxgGoU6c15vDVDQwjZALTZCwZDZD"
+
 
 # Itera sobre cada usuario
 for usuario in usuariosABuscar:
-    url_info = f"https://graph.facebook.com/v19.0/17841462284503224?fields=business_discovery.username(danonetest){{media{{comments_count,like_count,media_url,id}}}}&access_token={access_token}"
+    url_info = f"https://graph.facebook.com/v19.0/17841462284503224?fields=business_discovery.username(olafquerol){{media{{comments_count,like_count,media_url,id}}}}&access_token={access_token}"
     response_info = requests.get(url_info).json()
 
     # Extrae la información deseada
@@ -38,5 +39,5 @@ for usuario in usuariosABuscar:
 
  
     
-# comentarios de cada publicacion https://graph.facebook.com/v19.0/18291229885134271/comments?access_token=EAAJIp9alpSQBO5qRMeWwq5eWxkdEoUU153FCXRhUxADZAlXsEBFNTKFVSrwZBk4Ya9p3B7BXHa2fWdU8OgCbNXrirQG5FYNjPw4dIinzAmSeMRKZAJxGhbzqy09K70y4kEZCr2EPHL8RgtxmuuOJfZAzEDvRwX6lJnqlWQo7MeZAATkfljYKqYtKEKvCwEmLZBOZAubbHg4QVHSivXTILJerDMbFMgQkugZDZD
+# comentarios de cada publicacion https://graph.facebook.com/v19.0/18309878308181302/comments?access_token=EAAJIp9alpSQBO5qRMeWwq5eWxkdEoUU153FCXRhUxADZAlXsEBFNTKFVSrwZBk4Ya9p3B7BXHa2fWdU8OgCbNXrirQG5FYNjPw4dIinzAmSeMRKZAJxGhbzqy09K70y4kEZCr2EPHL8RgtxmuuOJfZAzEDvRwX6lJnqlWQo7MeZAATkfljYKqYtKEKvCwEmLZBOZAubbHg4QVHSivXTILJerDMbFMgQkugZDZD
 #el id es el id del post que devuelve pero no me deja en otras cuentas agenas.....
